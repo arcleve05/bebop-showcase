@@ -62,11 +62,11 @@ test('identical duplicate lines dedupe; contradictory milestones error', () => {
   const dup = '```bebop-deps-v1\nsample/workflow#68 milestone=merged\nsample/workflow#68 milestone=merged\n```';
   assert.deepEqual(parseDependencyBlock(dup).deps, [{ repo: 'sample/workflow', number: 68, milestone: 'merged' }]);
   const contra = '```bebop-deps-v1\nsample/workflow#68 milestone=merged\nsample/workflow#68 milestone=test_verified\n```';
-  assert.throws(() => parseDependencyBlock(contra), /contradictory milestones for dependency arcleve05\/bebop-control#68/);
+  assert.throws(() => parseDependencyBlock(contra), /contradictory milestones for dependency sample\/workflow#68/);
 });
 
 test('issue keys round-trip and are normalized to lower case', () => {
-  assert.equal(issueKeyOf('ArcLeve05/Bebop-Control', 68), 'sample/workflow#68');
+  assert.equal(issueKeyOf('Sample/Workflow', 68), 'sample/workflow#68');
   assert.deepEqual(parseIssueKey('sample/workflow#68'), { repo: 'sample/workflow', number: 68 });
   assert.throws(() => parseIssueKey('bebop-control#68'), /invalid issue key/);
 });
