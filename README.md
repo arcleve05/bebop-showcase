@@ -10,7 +10,7 @@
 
 I lead quality engineering organizations and remain hands-on with engineering. Across First Citizens Bank and Baxter/Hillrom, my professional experience has included QA strategy, Selenium/Playwright/UFT automation frameworks, enterprise testing services, structured banking UAT, regulated verification and validation, release criteria and globally distributed teams. [Professional experience and scope](docs/quality-leadership.md).
 
-**Bebop is separate personal work.** It is a local-first research and engineering platform exploring how autonomous development can be made testable, bounded, auditable and operationally safe. The public code below consists of curated, runnable excerpts and adaptations of private personal implementations. It is not employer code, and these examples do not claim end-to-end autonomous production deployment.
+**Bebop is separate personal work.** It is a local-first research and engineering platform exploring how autonomous development can be made testable, bounded, auditable and operationally safe. The public code below includes curated, runnable excerpts and adaptations of private personal implementations plus one clearly labeled new synthetic release-gate illustration. It is not employer code, and these examples do not claim end-to-end autonomous production deployment.
 
 ## Start here: runnable engineering examples
 
@@ -20,6 +20,7 @@ I lead quality engineering organizations and remain hands-on with engineering. A
 | [Fail-closed evidence grading](examples/evidence-grading/) | Prevent a high aggregate score from hiding critical failures | `python -m unittest discover -s examples/evidence-grading` |
 | [Truthful live-state caching](examples/live-state-cache/) | Expose stale, unauthorized, invalid or unavailable operational states | `node --test examples/live-state-cache/*.test.mjs` |
 | [Evidence-based execution leases](examples/lease-policy/) | Detect tangible code/test progress rather than model activity | `python -m unittest discover -s examples/lease-policy` |
+| [Synthetic release evidence gate](examples/release-gate/) | Model auditable READY/HOLD decisions based on traceable tests, CI, defects and UAT | `python -m unittest discover -s examples/release-gate` |
 
 All examples use Node.js 22+ or Python 3.11+, have no third-party runtime dependencies and make no external network calls. The [public CI workflow](.github/workflows/examples.yml) runs each test suite.
 

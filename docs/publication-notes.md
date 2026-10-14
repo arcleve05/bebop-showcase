@@ -8,6 +8,7 @@ The repository is a **curated personal portfolio**: executable excerpts or adapt
 | Execution lease | Personal `bebop-control/integrations/bebop-run/code_lease.py` policy excerpt and synthetic tests; no live process ownership code |
 | Evidence scoring | Standalone adaptation from personal `bebop-bench/src/bebop_bench/grading.py`; consumes supplied outcomes rather than executing untrusted processes |
 | Live-state cache | Adaptation of personal `bebop-dashboard/src/state-cache.js` with synthetic adapter tests and explicitly documented validation boundaries |
+| Synthetic release evidence gate | Newly written public example; **not** sourced from an employer, a customer or existing Bebop deployment |
 
 **Separate professional statements:** The [quality leadership page](quality-leadership.md) is based on resume claims and does not assert that professional employer implementations were copied into or powered by Bebop.
 
