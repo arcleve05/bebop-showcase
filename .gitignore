@@ -1,0 +1,10 @@
+# Local and generated files
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+coverage/
+*.log

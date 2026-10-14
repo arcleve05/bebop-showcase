@@ -1,0 +1,24 @@
+name: Portfolio example checks
+on:
+  push:
+  pull_request:
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Versioned dependency contract
+        run: node --test examples/dependency-contract/dependencyBlock.test.mjs
+      - name: Live-state semantics
+        run: node --test examples/live-state-cache/state-cache.test.mjs
+      - name: Evidence-based execution policy
+        run: python -m unittest discover -s examples/lease-policy -p 'test_*.py'
+      - name: Critical-failure grading
+        run: python -m unittest discover -s examples/evidence-grading -p 'test_*.py'
