@@ -42,12 +42,34 @@ const DEP_LINE = /^([A-Za-z0-9._-]+\/[A-Za-z0-9._-]+)#([1-9][0-9]*)\s+milestone=
  */
 function extractDepBlocks(body) {
   const blocks = [];
-  const fence = /```[ \t]*(bebop-deps(?:-[A-Za-z0-9._-]+)?)[ \t]*\r?\n([\s\S]*?)```/g;
-  let match;
-  while ((match = fence.exec(body)) !== null) {
-    const tag = match[1];
-    const version = tag.includes('-') ? tag.slice('bebop-deps'.length + 1) : '';
-    blocks.push({ version, body: match[2] });
+  const opening = /^[ \t]{0,3}(\x60{3,}|~{3,})([^\r\n]*)$/;
+  const closing = /^[ \t]{0,3}(\x60{3,}|~{3,})[ \t]*$/;
+  let current = null;
+  for (const line of body.split(/\r?\n/)) {
+    if (current) {
+      const end = closing.exec(line);
+      if (end && end[1][0] === current.marker && end[1].length >= current.width) {
+        if (current.tag !== null) {
+          const version = current.tag === 'bebop-deps' ? '' : current.tag.slice('bebop-deps-'.length);
+          blocks.push({ version, body: current.lines.join('\n') });
+        }
+        current = null;
+      } else if (current.tag !== null) {
+        current.lines.push(line);
+      }
+      continue;
+    }
+    const start = opening.exec(line);
+    if (!start) continue;
+    const info = start[2].trim();
+    const tagged = info.startsWith('bebop-deps');
+    if (tagged && !/^bebop-deps(?:-[A-Za-z0-9._-]+)?$/.test(info)) {
+      throw new DependencyDeclarationError('invalid bebop-deps fence header: ' + JSON.stringify(info));
+    }
+    current = { marker: start[1][0], width: start[1].length, tag: tagged ? info : null, lines: [] };
+  }
+  if (current?.tag !== null && current?.tag !== undefined) {
+    throw new DependencyDeclarationError('unterminated bebop-deps fence');
   }
   return blocks;
 }
@@ -152,6 +174,9 @@ export function convertProseDependencies(body) {
     break;
   }
 
+  if (tokens.length === 0) {
+    throw new DependencyDeclarationError('dependency header has no values; specify explicit none or fully qualified references');
+  }
   const deps = [];
   for (const token of tokens) {
     if (/^(none|no dependencies|nothing)$/i.test(token)) {

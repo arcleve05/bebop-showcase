@@ -6,6 +6,8 @@ on:
 jobs:
   examples:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,3 +24,5 @@ jobs:
         run: python -m unittest discover -s examples/lease-policy -p 'test_*.py'
       - name: Critical-failure grading
         run: python -m unittest discover -s examples/evidence-grading -p 'test_*.py'
+      - name: Synthetic release evidence gate
+        run: python -m unittest discover -s examples/release-gate -p 'test_*.py'
