@@ -1,29 +1,45 @@
-# Bebop — Selected Engineering Work
+# Bebop — Engineering Reliability & Quality Showcase
 
-**Reliable automation · AI evaluation · execution safety · operational visibility**
+**Andrew R. Cleveland | Senior Quality Engineering Leader | Regulated Banking & Medical Devices**
 
-Bebop is a personal, local-first engineering project investigating how autonomous coding and inference workflows can be made **testable, bounded, auditable, and safe to operate**. This is a curated engineering portfolio—not a dump of the private implementation or a claim that all planned features are deployed.
+[![Portfolio example checks](https://github.com/arcleve05/bebop-showcase/actions/workflows/examples.yml/badge.svg)](https://github.com/arcleve05/bebop-showcase/actions/workflows/examples.yml)
 
-## Review the code
+**Deterministic automation · Independent verification · Auditable release decisions · Failure-aware operations**
 
-| Working excerpt | Design problem | Run it |
+## Why this portfolio exists
+
+I lead quality engineering organizations and remain hands-on with engineering. Across First Citizens Bank and Baxter/Hillrom, my professional experience has included QA strategy, Selenium/Playwright/UFT automation frameworks, enterprise testing services, structured banking UAT, regulated verification and validation, release criteria and globally distributed teams. [Professional experience and scope](docs/quality-leadership.md).
+
+**Bebop is separate personal work.** It is a local-first research and engineering platform exploring how autonomous development can be made testable, bounded, auditable and operationally safe. The public code below consists of curated, runnable excerpts and adaptations of private personal implementations. It is not employer code, and these examples do not claim end-to-end autonomous production deployment.
+
+## Start here: runnable engineering examples
+
+| Example | Why it matters to quality engineering | Run |
 | --- | --- | --- |
-| [Versioned dependency contracts](examples/dependency-contract/) | Prevent malformed dependencies from silently making a ticket eligible | `node --test examples/dependency-contract/*.test.mjs` |
-| [Evidence-based execution leases](examples/lease-policy/) | Measure real Git/test progress instead of trusting model chatter | `python -m unittest discover -s examples/lease-policy` |
-| [Fail-closed evaluation scoring](examples/evidence-grading/) | Prevent a high weighted score from concealing a critical failure | `python -m unittest discover -s examples/evidence-grading` |
-| [Truthful live-state caching](examples/live-state-cache/) | Distinguish fresh, stale, invalid, unauthorized and unavailable data | `node --test examples/live-state-cache/*.test.mjs` |
+| [Versioned dependency contracts](examples/dependency-contract/) | Reject ambiguous requirements and prerequisites before work is admitted | `node --test examples/dependency-contract/*.test.mjs` |
+| [Fail-closed evidence grading](examples/evidence-grading/) | Prevent a high aggregate score from hiding critical failures | `python -m unittest discover -s examples/evidence-grading` |
+| [Truthful live-state caching](examples/live-state-cache/) | Expose stale, unauthorized, invalid or unavailable operational states | `node --test examples/live-state-cache/*.test.mjs` |
+| [Evidence-based execution leases](examples/lease-policy/) | Detect tangible code/test progress rather than model activity | `python -m unittest discover -s examples/lease-policy` |
 
-Examples are runnable with **Node.js 22+ and Python 3.11+**, use only standard libraries, and make no network calls.
+All examples use Node.js 22+ or Python 3.11+, have no third-party runtime dependencies and make no external network calls. The [public CI workflow](.github/workflows/examples.yml) runs each test suite.
 
-## Engineering case studies
+## Engineering decisions and case studies
 
-1. [Guarded development and delivery](docs/01-guarded-delivery.md) — admission gates, dependency-aware scheduling, evidence validation, and safe mutation handling.
-2. [Adversarial evaluation](docs/02-adversarial-evaluation.md) — independently checked AI coding results and reproducible grading.
-3. [Bounded agent execution](docs/03-bounded-execution.md) — deterministic progress fingerprints and hard runtime limits.
-4. [Honest observability](docs/04-trustworthy-observability.md) — API contracts and explicit degraded states.
-5. [Reproducible media experimentation](docs/05-reproducible-experiments.md) — pinned model workflows and verified inputs.
+1. [Adversarial engineering evaluation](docs/02-adversarial-evaluation.md) — independent checks, negative testing, critical failure controls.
+2. [Guarded delivery and release decisions](docs/01-guarded-delivery.md) — admission gates, authoritative state, SHA-pinned mutations.
+3. [Trustworthy observability](docs/04-trustworthy-observability.md) — explicit failure states and truthful dashboards.
+4. [Bounded agent execution](docs/03-bounded-execution.md) — evidence-based progress and non-negotiable hard limits.
+5. [Reproducible local media experiments](docs/05-reproducible-experiments.md) — model/workflow provenance and experimental limits.
 
-## Conceptual architecture
+## Selected professional context (separate from Bebop)
+
+- **Banking QA:** At First Citizens Bank, managed a 15-person test-services organization and helped establish structured UAT capabilities for teller and digital banking applications.
+- **Regulated delivery:** At Baxter/Hillrom, lead a 50+ distributed engineering/quality organization serving a mission-critical clinical communications platform; quality work includes audit-ready verification, traceability and risk-based release decisions.
+- **Automation and results:** Personally developed Selenium, Playwright and UFT test frameworks. Resume-reported outcomes include up to 40% shorter test cycles and automated first-run pass rates of 85%+.
+
+These are career claims drawn from my resume, **not metrics measured by this public repository**. No confidential employer deliverables are reproduced.
+
+## Architecture at a glance
 
 ```mermaid
 flowchart LR
@@ -38,12 +54,6 @@ flowchart LR
     F -. evidence .-> O
 ```
 
-*Logical component boundaries; not a live network map or claim of completed end-to-end unattended deployment.*
+*Logical architecture, not a live deployment map.*
 
-## For reviewers
-
-Read [resume/application notes](docs/resume-and-applications.md) and [publication/provenance notes](docs/publication-notes.md) for project boundaries, technical discussion prompts and ready-to-use portfolio language.
-
-The full source repositories, operational infrastructure, secrets, model weights, and private records remain private. This portfolio publishes carefully selected excerpts and adaptations with synthetic tests. No reuse license is granted by default.
-
-**Portfolio URL:** https://github.com/arcleve05/bebop-showcase
+**For hiring teams:** [Quality leadership and experience](docs/quality-leadership.md) · [Interview talking points](docs/resume-and-applications.md) · [Publication and provenance notes](docs/publication-notes.md). The complete operational repositories remain private. No general reuse license is granted by default.
