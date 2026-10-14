@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseDependencyBlock, DependencyDeclarationError, issueKeyOf, parseIssueKey } from './dependencyBlock.mjs';
+import { parseDependencyBlock, DependencyDeclarationError, issueKeyOf, parseIssueKey, convertProseDependencies } from './dependencyBlock.mjs';
 
 test('valid bebop-deps-v1 block parses fully qualified refs with required milestones', () => {
   const body = [
@@ -69,4 +69,50 @@ test('issue keys round-trip and are normalized to lower case', () => {
   assert.equal(issueKeyOf('Sample/Workflow', 68), 'sample/workflow#68');
   assert.deepEqual(parseIssueKey('sample/workflow#68'), { repo: 'sample/workflow', number: 68 });
   assert.throws(() => parseIssueKey('bebop-control#68'), /invalid issue key/);
+});
+
+
+test('malformed or unterminated dependency fences fail closed', () => {
+  const fence = String.fromCharCode(96).repeat(3);
+  assert.throws(
+    () => parseDependencyBlock(fence + 'bebop-deps-v1 extra\nsample/workflow#68 milestone=merged\n' + fence),
+    /invalid bebop-deps fence header/
+  );
+  assert.throws(
+    () => parseDependencyBlock(fence + 'bebop-deps-v1\nsample/workflow#68 milestone=merged'),
+    /unterminated bebop-deps fence/
+  );
+  assert.throws(
+    () => parseDependencyBlock(fence + 'bebop-deps-typo\nnone\n' + fence),
+    /unsupported dependency block version/
+  );
+});
+
+test('dependency-looking examples inside unrelated fenced blocks are ignored', () => {
+  const fence = String.fromCharCode(96).repeat(3);
+  const prose = fence + 'text\n' + fence + 'bebop-deps-v1\nnone\n' + fence + '\n' + fence;
+  assert.deepEqual(parseDependencyBlock(prose).deps, []);
+});
+
+test('conservative prose conversion validates and preserves non-dependency text', () => {
+  const source = 'Work item\nDepends on: sample/workflow#68 (merged)\nOther notes';
+  const result = convertProseDependencies(source);
+  assert.equal(result.converted, true);
+  assert.deepEqual(result.deps, [{ repo: 'sample/workflow', number: 68, milestone: 'merged' }]);
+  assert.match(result.body, /Other notes/);
+});
+
+test('empty dependency headings do not become an implicit none', () => {
+  assert.throws(() => convertProseDependencies('Depends on:\nDetails TBD'), /dependency header has no values/);
+  assert.deepEqual(convertProseDependencies('Depends on: none').deps, []);
+});
+
+test('ambiguous prose and preexisting blocks cannot be auto-converted', () => {
+  assert.throws(() => convertProseDependencies('Depends on: #12'), /refusing to convert ambiguous/);
+  assert.throws(
+    () => convertProseDependencies('Depends on: none, sample/workflow#12'),
+    /ambiguous 'none'/
+  );
+  const fence = String.fromCharCode(96).repeat(3);
+  assert.throws(() => convertProseDependencies(fence + 'bebop-deps-v1\nnone\n' + fence), /already contains/);
 });
